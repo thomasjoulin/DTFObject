@@ -87,14 +87,15 @@ static void SwizzleClassMethods(Class class, SEL firstSelector, SEL secondSelect
 - (BOOL)implementsSelector:(SEL)aSelector
 {
 	Method			*methods;
+	BOOL			implementsSelector = NO;
 	unsigned int	count;
 	unsigned int	i;
 	
 	methods = class_copyMethodList([self class], &count);
-	for (i = 0; i < count; i++)
+	for (i = 0; !implementsSelector && i < count; i++)
 		if (sel_isEqual(method_getName(methods[i]), aSelector))
-			return YES;
-	return NO;
+			implementsSelector = YES;
+	return implementsSelector;
 }
 
 @end
